@@ -1,0 +1,38 @@
+services:
+  api:
+    network_mode: "host"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: fastapi run  api/main.py --host 0.0.0.0 --port 8888
+    depends_on:
+      - triton
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app
+    working_dir: /app
+
+  triton:
+    image: nvcr.io/nvidia/tritonserver:24.07-vllm-python-py3
+    network_mode: "host"
+    environment:
+      - TORCH_USE_CUDA_DSA=1
+      - CUDA_LAUNCH_BLOCKING=1
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+    shm_size: "1g"
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    volumes:
+      - ${PWD}/models:/models
+    working_dir: /workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    command: [ "tritonserver", "--model-repository", "/models" ]
