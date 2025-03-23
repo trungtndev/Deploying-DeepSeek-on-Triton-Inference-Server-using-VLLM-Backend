@@ -153,9 +153,8 @@ W0323 18:29:07.099395 1 metrics.cc:631] "Unable to get power limit for GPU 0. St
 ## Create LLMClient
 
 File name `client.py` is used to create a client for the FastAPI application. 
-This client is used to send requests to the FastAPI application.
+This client is used to send requests to triton inference server and get the results.
 Define the client as follows:
-
 
 ```python
 from client import LLMClient
