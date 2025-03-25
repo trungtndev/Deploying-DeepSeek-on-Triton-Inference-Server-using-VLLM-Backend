@@ -1,7 +1,7 @@
 # Deploying DeepSeek on Triton Inference Server using VLLM Backend
 
 ## Ubuntu, GPU and CUDA Information
-- Ubuntu 20.04
+- Ubuntu 22.04
 - CUDA 12.4
 - GPU: NVIDIA GeForce RTX 3050Ti
 ## Pulling the Docker Image
